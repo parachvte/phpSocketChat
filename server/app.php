@@ -4,7 +4,7 @@
 // don't timeout!
 set_time_limit(0);
 
-require_once('init.php');
+require_once('../init.php');
 $config = include(ROOT . '/config.php');
 
 $routing = [
