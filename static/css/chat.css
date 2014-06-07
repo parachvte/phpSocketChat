@@ -48,7 +48,7 @@ a {
     border-bottom: 1px solid #ddd;
 }
 #chat-box {
-    width: 680px;
+    min-width: 680px;
     margin-left: 400px;
     padding-right: 10px;
 }
@@ -56,8 +56,11 @@ a {
     border-bottom: 1px solid #ddd;
 }
 #chat-view {
-    height: 400px;
-    width: 100%;
+    min-height: 300px;
+    max-height: 400px;
+    margin-top: 2em;
+    margin-left: 1em;
+    width: 680px;
     background-color: rgb(196, 226, 216);
     overflow-y: scroll;
 }
@@ -69,6 +72,7 @@ a {
 }
 #chat-input {
     margin-top: 1em;
+    margin-left: 1em;
 }
 #submit-btn {
     height: 90px;
