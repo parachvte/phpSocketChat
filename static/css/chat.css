@@ -1,0 +1,75 @@
+/* Basic */
+body {
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: #1b98f8;
+}
+
+/* Helper */
+
+
+/* Layout */
+#channel-list, #chat-box {
+    position: fixed;
+    overflow: auto;
+    top: 0;
+    bottom: 0;
+}
+#channel-list {
+    min-width: 350px;
+}
+.channel-entry {
+    padding: 1em;
+    border-bottom: 1px solid #ddd;
+}
+.channel-entry-selected {
+    background: #eee;
+}
+.channel-header {
+    text-transform: uppercase;
+    margin: 0;
+    color: #999;
+}
+.channel-avatar {
+    height: 50px;
+    width: 50px;
+    margin-right: 1.5em;
+}
+.channel-name {
+}
+#channel-add, #chat-box-header {
+    height: 90px;
+    padding: 0.5em 1.4em;
+}
+#channel-add {
+    border-bottom: 1px solid #ddd;
+}
+#chat-box {
+    width: 680px;
+    margin-left: 400px;
+    padding-right: 10px;
+}
+#chat-box-header {
+    border-bottom: 1px solid #ddd;
+}
+#chat-view {
+    height: 400px;
+    width: 100%;
+    background-color: rgb(196, 226, 216);
+    overflow-y: scroll;
+}
+.chat-item {
+    padding: 0.6em;
+}
+.chat-user {
+    color: rgb(126, 33, 18);
+}
+#chat-input {
+    margin-top: 1em;
+}
+#submit-btn {
+    height: 90px;
+}
