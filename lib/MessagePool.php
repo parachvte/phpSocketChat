@@ -27,4 +27,8 @@ class MessagePool {
 		self::$id2name[++self::$counter] = $newName;
 		return self::$counter;
 	}
+
+	public static function getAll(){
+		return self::$id2name;
+	}
 }

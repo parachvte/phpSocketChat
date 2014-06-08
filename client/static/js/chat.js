@@ -9,6 +9,7 @@ $(document).ready(function(){
         chatViewObj = $('#chat-view'),
         channelAddNameObj = $('#channel-add-name'),
         submitBtnObj = $('#submit-btn'),
+        chatBoxNameObj = $('#chat-box-name'),
         nickObj = $('#nick'),
         contentObj = $('#content');
 
@@ -52,6 +53,7 @@ $(document).ready(function(){
         unSelectCurrentChannel();
         var channelObj  = channelListObj.find('[data-channel="' + cid + '"]');
         channelObj.addClass('channel-entry-selected');
+        chatBoxNameObj.text(channelObj.find('.channel-name').text());
         $.cookie('channel', cid);
         $.cookie('polling', 0);
         clearChatView();
@@ -65,6 +67,13 @@ $(document).ready(function(){
         var cid = $.cookie('channel');
         var channelObj  = channelListObj.find('[data-channel="' + cid + '"]');
         channelObj.removeClass('channel-entry-selected');
+    };
+
+    /**
+     * Clear chat view when channel switches
+     */
+    var clearChatView = function(){
+        chatViewObj.html('');
     };
 
     /**
@@ -91,10 +100,25 @@ $(document).ready(function(){
     };
 
     /**
-     * Clear chat view when channel switches
+     * Request for a list of all channels
      */
-    var clearChatView = function(){
-        chatViewObj.html('');
+    var listChannels = function(){
+        var action = 'listChannels';
+        $.ajax({
+            type: 'POST',
+            url: client,
+            dataType: 'json',
+            data: { action: action },
+            success: function (data){
+                if (data.status === 0) {
+                    channelListObj.html('');
+                    $.each(data.channels, function(cid, name){
+                        channelListObj.prepend(channelItemModule(cid, name));
+                    });
+                    selectChannel($.cookie('channel'));
+                }
+            }
+        });
     };
 
     /**
@@ -156,6 +180,7 @@ $(document).ready(function(){
             selectChannel(nextChannel);
         });
         //polling
+        listChannels();
         polling();
         setInterval(polling, 5000);
     };

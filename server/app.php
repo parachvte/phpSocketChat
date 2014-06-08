@@ -10,7 +10,8 @@ $config = include(ROOT . '/config.php');
 $routing = [
 	'message' => 'MessageController',
 	'polling' => 'PollingController',
-	'channelAdd' => 'ChannelAddController'
+	'channelAdd' => 'ChannelAddController',
+	'listChannels' => 'ListChannelsController'
 ];
 
 $server = new SocketServer($config, function (ChatRequest $request) {

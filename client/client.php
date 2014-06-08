@@ -42,6 +42,8 @@ try {
 				'channelName' => $_POST['channelName'],
 			];
 			break;
+		case 'listChannels':
+			break;
 		default:
 			throw new UnexpectedValueException('Action unrecognized.');
 	}
