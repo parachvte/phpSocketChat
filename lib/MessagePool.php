@@ -28,7 +28,17 @@ class MessagePool {
 		return self::$counter;
 	}
 
+	/**
+	 * @return array
+	 */
 	public static function getAll(){
 		return self::$id2name;
+	}
+
+	public static function delete($id){
+		if (isset(self::$id2name[$id])){
+			unset(self::$id2name[$id]);
+			unset(self::$pool[$id]);
+		}
 	}
 }

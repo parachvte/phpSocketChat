@@ -41,6 +41,7 @@ $(document).ready(function(){
                 <h5 class="channel-header">CHANNEL</h5>\
                 <h4 class="channel-name">' + channelName + '</h4>\
             </div>\
+            <div class="channel-delete">x</div>\
         </div>';
     };
 
@@ -50,7 +51,7 @@ $(document).ready(function(){
      */
     var selectChannel = function(cid){
         unSelectCurrentChannel();
-        var channelObj  = channelListObj.find('[data-channel="' + cid + '"]');
+        var channelObj = channelListObj.find('[data-channel="' + cid + '"]');
         channelObj.addClass('channel-entry-selected');
         chatBoxNameObj.text(channelObj.find('.channel-name').text());
         $.cookie('channel', cid);
@@ -64,9 +65,18 @@ $(document).ready(function(){
      */
     var unSelectCurrentChannel = function(){
         var cid = $.cookie('channel');
-        var channelObj  = channelListObj.find('[data-channel="' + cid + '"]');
+        var channelObj = channelListObj.find('[data-channel="' + cid + '"]');
         channelObj.removeClass('channel-entry-selected');
     };
+
+    /**
+     * Remove from list
+     * @param cid
+     */
+    var removeChannel = function(cid){
+        var channelObj = channelListObj.find('[data-channel="' + cid + '"]');
+        channelObj.remove();
+    }
 
     /**
      * Clear chat view when channel switches
@@ -121,9 +131,28 @@ $(document).ready(function(){
     };
 
     /**
+     * Request for deleting a channel
+     * @param cid
+     */
+    var deleteChannel = function(cid){
+        var action = 'deleteChannel';
+        $.ajax({
+            type: 'POST',
+            url: client,
+            dataType: 'json',
+            data: { action: action, channel: cid },
+            success: function (data){
+                if (data.status === 0) {
+                    removeChannel(cid);
+                }
+            }
+        });
+    };
+
+    /**
      * Initialize layouts and actions
      */
-    var init = function(){
+    (function(){
         //initial cookies
         $.cookie('channel', 0);
         $.cookie('polling', 0);
@@ -173,6 +202,12 @@ $(document).ready(function(){
             });
             return false;
         });
+        //delete channel
+        channelListObj.on('click', '.channel-entry .channel-delete', function (){
+            var targetChannel = $(this).parent().data('channel');
+            deleteChannel(targetChannel);
+
+        });
         //switch channel
         channelListObj.on('click', '.channel-entry', function (){
             var nextChannel = $(this).data('channel');
@@ -180,9 +215,8 @@ $(document).ready(function(){
         });
         //polling
         listChannels();
+        setInterval(listChannels, 60000);
         polling();
-        setInterval(polling, 5000);
-    };
-
-    init();
+        setInterval(polling, 10000);
+    })();
 });

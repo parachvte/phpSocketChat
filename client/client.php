@@ -44,6 +44,11 @@ try {
 			break;
 		case 'listChannels':
 			break;
+		case 'deleteChannel':
+			$data += [
+				'channel' => $_POST['channel']
+			];
+			break;
 		default:
 			throw new UnexpectedValueException('Action unrecognized.');
 	}

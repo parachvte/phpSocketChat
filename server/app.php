@@ -11,7 +11,8 @@ $routing = [
 	'message' => 'MessageController',
 	'polling' => 'PollingController',
 	'channelAdd' => 'ChannelAddController',
-	'listChannels' => 'ListChannelsController'
+	'listChannels' => 'ListChannelsController',
+	'deleteChannel' => 'DeleteChannelController'
 ];
 
 $server = new SocketServer($config, function (ChatRequest $request) {

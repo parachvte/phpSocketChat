@@ -24,6 +24,7 @@ a {
 #channel-list {
 }
 .channel-entry {
+    position: relative;
     padding: 1em;
     border-bottom: 1px solid #eee;
 }
@@ -32,6 +33,17 @@ a {
 }
 .channel-entry-selected {
     background-color: #ddd;
+}
+.channel-entry .channel-delete {
+    position: absolute;
+    top: -999em;
+    width: 25px;
+    height: 25px;
+    margin: 0.2em;
+}
+.channel-entry:hover .channel-delete {
+    top: 0.5em;
+    right: 0em;
 }
 .channel-header {
     text-transform: uppercase;
