@@ -13,34 +13,34 @@
 </head>
 <body>
 <div id="layout" class="pure-g">
-    <div id="channel-list" class="pure-u">
-        <!--
+    <div id="left-bar" class="pure-u">
         <div id="channel-add">
             <form class="pure-form">
                 <fieldset>
                     <legend>Add a channel</legend>
-                    <input type="text" placeholder="channel name">
-                    <button type="submit" class="pure-button pure-button-primary">Add</button>
+                    <input id="channel-add-name" type="text" placeholder="channel name">
+                    <button id="channel-add-btn" type="submit" class="pure-button pure-button-primary">Add</button>
                 </fieldset>
             </form>
         </div>
-        -->
-        <div class="channel-entry pure-g">
-            <div class="pure-u">
-                <img class="channel-avatar" src="/static/img/octocat.jpeg">
+        <div id="channel-list">
+            <div class="channel-entry channel-entry-selected pure-g" data-channel="0">
+                <div class="pure-u">
+                    <img class="channel-avatar" src="static/img/octocat.jpeg">
+                </div>
+                <div class="pure-u-3-4">
+                    <h5 class="channel-header">CHANNEL</h5>
+                    <h4 class="channel-name">I Have A Dream</h4>
+                </div>
             </div>
-            <div class="pure-u-3-4">
-                <h5 class="channel-header">CHANNEL</h5>
-                <h4 class="channel-name">First Channel</h4>
-            </div>
-        </div>
-        <div class="channel-entry channel-entry-selected pure-g">
-            <div class="pure-u">
-                <img class="channel-avatar" src="/static/img/octocat.jpeg">
-            </div>
-            <div class="pure-u-3-4">
-                <h5 class="channel-header">CHANNEL</h5>
-                <h4 class="channel-name">I Have A Dream</h4>
+            <div class="channel-entry pure-g" data-channel="1">
+                <div class="pure-u">
+                    <img class="channel-avatar" src="static/img/octocat.jpeg">
+                </div>
+                <div class="pure-u-3-4">
+                    <h5 class="channel-header">CHANNEL</h5>
+                    <h4 class="channel-name">Computer Network Socket Programming</h4>
+                </div>
             </div>
         </div>
     </div>

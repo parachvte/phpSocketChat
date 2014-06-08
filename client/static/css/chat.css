@@ -12,21 +12,26 @@ a {
 
 
 /* Layout */
-#channel-list, #chat-box {
+#left-bar, #chat-box {
     position: fixed;
     overflow: auto;
     top: 0;
     bottom: 0;
 }
+#left-bar {
+    width: 350px;
+}
 #channel-list {
-    min-width: 350px;
 }
 .channel-entry {
     padding: 1em;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #eee;
+}
+.channel-entry:hover {
+    background-color: #eee;
 }
 .channel-entry-selected {
-    background: #eee;
+    background-color: #ddd;
 }
 .channel-header {
     text-transform: uppercase;
@@ -46,6 +51,9 @@ a {
 }
 #channel-add {
     border-bottom: 1px solid #ddd;
+}
+#channel-add-name {
+    width: 190px;
 }
 #chat-box {
     min-width: 680px;

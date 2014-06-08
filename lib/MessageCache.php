@@ -2,28 +2,28 @@
 //ryannx6@gmail.com
 
 class MessageCache {
-	public static $counter = 0;
-	private static $cache = [];
+	public $counter = 0;
+	private $cache = [];
 
 	/**
 	 * @param $nick
 	 * @param $content
 	 * @return int
 	 */
-	public static function push($nick, $content) {
+	public function push($nick, $content) {
 		$item = ['nick' => $nick, 'content' => $content];
-		self::$cache[++self::$counter] = $item;
-		return self::$counter;
+		$this->cache[++$this->counter] = $item;
+		return $this->counter;
 	}
 
 	/**
 	 * @param $start
 	 * @return array
 	 */
-	public static function get($start) {
+	public function get($start) {
 		$result = [];
-		for ($id = $start; $id <= self::$counter; $id++) {
-			if (isset(self::$cache[$id])) $result[$id] = self::$cache[$id];
+		for ($id = $start; $id <= $this->counter; $id++) {
+			if (isset($this->cache[$id])) $result[$id] = $this->cache[$id];
 		}
 		return $result;
 	}

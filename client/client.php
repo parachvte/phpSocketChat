@@ -26,15 +26,24 @@ try {
 	switch ($action) {
 		case 'message':
 			$data += [
+				'channel' => $_POST['channel'],
 				'nick' => $_POST['nick'],
 				'content' => $_POST['content']
 			];
 			break;
 		case 'polling':
 			$data += [
+				'channel' => $_POST['channel'],
 				'last_mid' => $_POST['last_mid']
 			];
 			break;
+		case 'channelAdd':
+			$data += [
+				'channelName' => $_POST['channelName'],
+			];
+			break;
+		default:
+			throw new UnexpectedValueException('Action unrecognized.');
 	}
 	sendRequest($data);
 } catch (Exception $e) {

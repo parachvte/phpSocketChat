@@ -4,14 +4,16 @@
 
 class MessageController {
 	public function post(ChatRequest $request, ChatResponse $response) {
-		$params = ['nick', 'content'];
+		$params = ['channel', 'nick', 'content'];
 		foreach ($params as $param) if (!$request->ensure($param)) return $response->failed();
 
+		$channel = $request->data['channel'];
 		$nick = $request->data['nick'];
 		$content = $request->data['content'];
 		if (!$nick) return $response->failed();
 
-		if ($mid = MessageCache::push($nick, $content)) {
+		$cache = MessagePool::get($channel);
+		if ($mid = $cache->push($nick, $content)) {
 			$response->setValue('mid', $mid);
 			return $response->success();
 		} else
