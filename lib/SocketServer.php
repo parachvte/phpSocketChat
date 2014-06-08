@@ -65,21 +65,22 @@ class SocketServer {
 	 */
 	private function enqueue(SocketPacket $packet) {
 		if ($packet->noFragment) return $packet->data;
+
 		$id = $packet->identifier;
-		if (!isset($queue[$id])) {
-			$queue[$id] = [$packet->offset => $packet];
+		if (!isset($this->queue[$id])) {
+			$this->queue[$id] = [$packet->offset => $packet];
 		} else {
-			$queue[$id][$packet->offset] = $packet;
+			$this->queue[$id][$packet->offset] = $packet;
 		}
-		if ($packet->moreFragment === '0') {
-			$queue[$id]['maxOffset'] = $packet->offset;
+		if (!$packet->moreFragment) {
+			$this->queue[$id]['maxOffset'] = $packet->offset;
 		}
-		if (isset($queue[$id]['maxOffset'])) {
-			for ($i = 0; $i < $queue[$id]['maxOffset']; $i++)
-				if (!isset($queue[$id][$i])) return false;
+		if (isset($this->queue[$id]['maxOffset'])) {
+			for ($i = 0; $i <= $this->queue[$id]['maxOffset']; $i++)
+				if (!isset($this->queue[$id][$i])) return false;
 			$data = '';
-			for ($i = 0; $i < $queue[$id]['maxOffset']; $i++)
-				$data .= $queue[$id][$i]->data;
+			for ($i = 0; $i <= $this->queue[$id]['maxOffset']; $i++)
+				$data .= $this->queue[$id][$i]->data;
 
 			return $data;
 		}

@@ -1,8 +1,7 @@
 $(document).ready(function(){
     //config
     var host = 'http://127.0.0.1';
-    //var host = 'http://ryan.com';
-    var client = host + '/client/client.php';
+    var client = host + '/client.php';
 
     //objects
     var channelListObj = $('#channel-list'),

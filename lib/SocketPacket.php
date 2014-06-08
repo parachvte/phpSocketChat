@@ -33,11 +33,11 @@ class SocketPacket {
 		$this->protocol = substr($packetData, 0, 2);
 		if ($this->protocol !== '58') return false;
 		$this->noFragment = $packetData[2] === '1';
-		$this->moreFragment = $packetData[3] === '0';
+		$this->moreFragment = $packetData[3] === '1';
 		$this->identifier = substr($packetData, 4, 4);
 		try {
-			$this->length = (int)substr($packetData, 4, 4);
-			$this->offset = (int)substr($packetData, 4, 4);
+			$this->length = (int)substr($packetData, 8, 4);
+			$this->offset = (int)substr($packetData, 12, 4);
 		} catch (Exception $e) {
 			echo "length and offset in packet header must be integers\n" . $e->getMessage() . "\n";
 			return false;
