@@ -12,13 +12,16 @@ $routing = [
 	'polling' => 'PollingController',
 	'channelAdd' => 'ChannelAddController',
 	'listChannels' => 'ListChannelsController',
-	'deleteChannel' => 'DeleteChannelController'
+	'deleteChannel' => 'DeleteChannelController',
+	'listUsers' => 'ListUsersController'
 ];
 
 $server = new SocketServer($config, function (ChatRequest $request) {
 	$response = new ChatResponse();
 
-	echo "Request " . $request->action. "\n";
+	echo "Request ";
+	print_r($request->data);
+	echo "\n";
 
 	global $routing;
 	foreach ($routing as $action => $ctlName)

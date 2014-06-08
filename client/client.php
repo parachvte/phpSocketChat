@@ -34,7 +34,8 @@ try {
 		case 'polling':
 			$data += [
 				'channel' => $_POST['channel'],
-				'last_mid' => $_POST['last_mid']
+				'last_mid' => $_POST['last_mid'],
+				'nick' => $_POST['nick']
 			];
 			break;
 		case 'channelAdd':
@@ -45,6 +46,11 @@ try {
 		case 'listChannels':
 			break;
 		case 'deleteChannel':
+			$data += [
+				'channel' => $_POST['channel']
+			];
+			break;
+		case 'listUsers':
 			$data += [
 				'channel' => $_POST['channel']
 			];

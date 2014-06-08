@@ -6,11 +6,15 @@ $(document).ready(function(){
     //objects
     var channelListObj = $('#channel-list'),
         chatViewObj = $('#chat-view'),
+        userListObj = $('#user-list'),
         channelAddNameObj = $('#channel-add-name'),
         submitBtnObj = $('#submit-btn'),
         chatBoxNameObj = $('#chat-box-name'),
         nickObj = $('#nick'),
         contentObj = $('#content');
+
+    //Polling Lock to ensure that polling() should call once at a time
+    var pollingLock = false;
 
     /**
      * Chat Item Module
@@ -37,11 +41,19 @@ $(document).ready(function(){
             <div class="pure-u">\
                 <img class="channel-avatar" src="static/img/octocat.jpeg">\
             </div>\
-            <div class="pure-u-3-4">\
+            <div class="pure-u-5-8">\
                 <h5 class="channel-header">CHANNEL</h5>\
                 <h4 class="channel-name">' + channelName + '</h4>\
             </div>\
             <div class="channel-delete">x</div>\
+        </div>';
+    };
+
+    var userItemModule = function(nick){
+        return '\
+        <div class="user-item clearfix">\
+            <img class="user-avatar" src="static/img/octocat.jpeg">\
+            <div class="user-name">' + nick + '</div>\
         </div>';
     };
 
@@ -57,6 +69,7 @@ $(document).ready(function(){
         $.cookie('channel', cid);
         $.cookie('polling', 0);
         clearChatView();
+        listUsers();
         polling();
     };
 
@@ -89,14 +102,17 @@ $(document).ready(function(){
      * Polling new messages
      */
     var polling = function(){
+        if (pollingLock === true) return;
+        pollingLock = true;
         var action = 'polling',
             channel = $.cookie('channel'),
-            last_mid = $.cookie('polling');
+            last_mid = $.cookie('polling'),
+            nick = $.cookie('nick');
         $.ajax({
             type: 'POST',
             url: client,
             dataType: 'json',
-            data: { action: action, channel: channel, last_mid: last_mid },
+            data: { action: action, channel: channel, last_mid: last_mid, nick: nick },
             success: function (data){
                 if (data.status === 0) {
                     $.each(data.chatItems, function(mid, chatItem){
@@ -104,6 +120,7 @@ $(document).ready(function(){
                     });
                     $.cookie('polling', data.counter);
                 }
+                pollingLock = false;
             }
         });
     };
@@ -125,6 +142,25 @@ $(document).ready(function(){
                         channelListObj.prepend(channelItemModule(cid, name));
                     });
                     selectChannel($.cookie('channel'));
+                }
+            }
+        });
+    };
+
+    var listUsers = function(){
+        var action = 'listUsers',
+            channel = $.cookie('channel');
+        $.ajax({
+            type: 'POST',
+            url: client,
+            dataType: 'json',
+            data: { action: action, channel: channel },
+            success: function (data){
+                if (data.status === 0) {
+                    userListObj.html('');
+                    $.each(data.users, function(id, nick){
+                        userListObj.prepend(userItemModule(nick));
+                    });
                 }
             }
         });
@@ -156,6 +192,7 @@ $(document).ready(function(){
         //initial cookies
         $.cookie('channel', 0);
         $.cookie('polling', 0);
+        $.cookie('nick', '')
 
         //post a chat
         submitBtnObj.click(function(){
@@ -173,6 +210,7 @@ $(document).ready(function(){
                         //I'll have to deal with the fucking scroll chat window if use append()
                         chatViewObj.prepend(chatItemModule(nick, content));
                         $.cookie('polling', data.mid);
+                        $.cookie('nick', nick);
                     } else {
                         alert('Failed. Notice that nick can not be empty.');
                     }
@@ -216,6 +254,8 @@ $(document).ready(function(){
         //polling
         listChannels();
         setInterval(listChannels, 60000);
+        listUsers();
+        setInterval(listUsers, 10000);
         polling();
         setInterval(polling, 10000);
     })();

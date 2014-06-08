@@ -8,18 +8,26 @@ a {
     color: #1b98f8;
 }
 
-/* Helper */
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden
+}
+.clearfix {
+    zoom: 1;     /* hack for IE/Win */
+}
 
-
-/* Layout */
-#left-bar, #chat-box {
+/* left bar */
+#left-bar, #chat-box, #right-bar {
     position: fixed;
     overflow: auto;
     top: 0;
     bottom: 0;
 }
 #left-bar {
-    width: 350px;
+    width: 300px;
 }
 #channel-list {
 }
@@ -58,36 +66,35 @@ a {
 .channel-name {
 }
 #channel-add, #chat-box-header {
-    height: 90px;
+    height: 91px;
     padding: 0.5em 1.4em;
 }
 #channel-add {
     border-bottom: 1px solid #ddd;
 }
 #channel-add-name {
-    width: 190px;
+    width: 170px;
 }
+/* chat-box */
 #chat-box {
-    min-width: 680px;
-    margin-left: 400px;
-    padding-right: 10px;
+    margin-left: 300px;
 }
 #chat-box-header {
     border-bottom: 1px solid #ddd;
 }
 #chat-view {
     min-height: 300px;
-    max-height: 400px;
+    max-height: 350px;
     margin-top: 2em;
     margin-left: 1em;
-    width: 680px;
-    background-color: rgb(196, 226, 216);
+    width: 610px;
+    background-color: rgb(196, 226, 236);
     overflow-y: scroll;
 }
 .chat-item {
     padding: 0.6em;
 }
-.chat-user {
+.chat-user, .user-name {
     color: rgb(126, 33, 18);
 }
 #chat-input {
@@ -96,4 +103,24 @@ a {
 }
 #submit-btn {
     height: 90px;
+}
+/* right bar */
+#right-bar {
+    margin-left: 957px;
+}
+.user-item {
+    padding: 0.4em;
+    width: 180px;
+    border-bottom: 1px solid #ddd;
+}
+.user-item .user-avatar {
+    float: left;
+    height: 40px;
+    width: 40px;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+.user-name {
+    float: left;
+    padding-top: 0.8em;
 }
