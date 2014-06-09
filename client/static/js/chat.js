@@ -16,6 +16,25 @@ $(document).ready(function(){
     //Polling Lock to ensure that polling() should call once at a time
     var pollingLock = false;
 
+
+    /**
+     * Escape HTML tags so that js can not be embedded
+     * @param string
+     * @returns {string}
+     */
+    function escapeHtml(string) {
+        var entityMap = {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': '&quot;',
+            "'": '&#39;',
+            "/": '&#x2F;'
+        };
+        return String(string).replace(/[&<>"'\/]/g, function (c){
+            return entityMap[c];
+        });
+    }
     /**
      * Chat Item Module
      * @param nick
@@ -26,7 +45,7 @@ $(document).ready(function(){
         return '\
         <div class="chat-item"> \
             <span class="chat-user">' + nick + '</span>:\
-            <span class="chat-content">' + content + '</span>\
+            <span class="chat-content">' + escapeHtml(content) + '</span>\
         </div>';
     };
 
