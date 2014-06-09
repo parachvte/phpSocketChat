@@ -81,6 +81,7 @@ When implementing the `SocketPacket.php`, considered that the size of the text m
 * Switch between channels
 * List users in current channel
 * Send a broadcast message in a channel
+* Send a private message to specific user
 * Polling messages in a channel
 
 ### 4. License (GNU AGPLv3)
@@ -99,15 +100,4 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-
-
-
-
-
-  
-
-
-
 
