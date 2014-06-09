@@ -11,6 +11,7 @@ $(document).ready(function(){
         submitBtnObj = $('#submit-btn'),
         chatBoxNameObj = $('#chat-box-name'),
         nickObj = $('#nick'),
+        toNickObj = $('#toNick'),
         contentObj = $('#content');
 
     //Polling Lock to ensure that polling() should call once at a time
@@ -41,11 +42,15 @@ $(document).ready(function(){
      * @param content
      * @returns {string}
      */
-    var chatItemModule = function(nick, content){
+    var chatItemModule = function(nick, content, toNick){
+        var toNickHTML = '';
+        if (toNick != '')
+            toNickHTML = ' to <span class="chat-user">' + toNick + '</span>';
         return '\
-        <div class="chat-item"> \
-            <span class="chat-user">' + nick + '</span>:\
-            <span class="chat-content">' + escapeHtml(content) + '</span>\
+        <div class="chat-item">\
+            <span class="chat-user">' + nick + '</span>' +
+            toNickHTML +
+            ': <span class="chat-content">' + escapeHtml(content) + '</span>\
         </div>';
     };
 
@@ -135,9 +140,12 @@ $(document).ready(function(){
             success: function (data){
                 if (data.status === 0) {
                     $.each(data.chatItems, function(mid, chatItem){
-                        chatViewObj.prepend(chatItemModule(chatItem.nick, chatItem.content));
+                        if (chatItem.toNick == '' || chatItem.nick == nick || chatItem.toNick == nick) {
+                            chatViewObj.prepend(chatItemModule(chatItem.nick, chatItem.content, chatItem.toNick));
+                            last_mid = mid;
+                        }
                     });
-                    $.cookie('polling', data.counter);
+                    $.cookie('polling', last_mid);
                 }
                 pollingLock = false;
             }
@@ -211,24 +219,28 @@ $(document).ready(function(){
         //initial cookies
         $.cookie('channel', 0);
         $.cookie('polling', 0);
-        $.cookie('nick', '')
 
         //post a chat
         submitBtnObj.click(function(){
             var action = 'message',
                 channel = $.cookie('channel'),
                 nick = nickObj.val(),
-                content = contentObj.val();
+                content = contentObj.val(),
+                toNick = toNickObj.val();
+            if (!toNick) toNick = '';
             $.ajax({
                 type: 'POST',
                 url: client,
                 dataType: 'json',
-                data: { action: action, channel: channel, nick: nick, content: content },
+                data: { action: action, channel: channel, nick: nick, content: content, toNick: toNick },
                 success: function (data){
                     if (data.status === 0) {
                         //I'll have to deal with the fucking scroll chat window if use append()
-                        chatViewObj.prepend(chatItemModule(nick, content));
-                        $.cookie('polling', data.mid);
+                        var curPolling = parseInt($.cookie('polling'));
+                        if (curPolling + 1 === data.mid) {
+                            chatViewObj.prepend(chatItemModule(nick, content, toNick));
+                            $.cookie('polling', data.mid);
+                        }
                         $.cookie('nick', nick);
                     } else {
                         alert('Failed. Notice that nick can not be empty.');
@@ -276,6 +288,6 @@ $(document).ready(function(){
         listUsers();
         setInterval(listUsers, 10000);
         polling();
-        setInterval(polling, 10000);
+        setInterval(polling, 5000);
     })();
 });

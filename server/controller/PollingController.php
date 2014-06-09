@@ -21,7 +21,7 @@ class PollingController {
 		$cache = MessagePool::get($channel);
 		$messages = $cache->get($last_mid + 1);
 		$response->setValue('chatItems', $messages);
-		$response->setValue('counter', $cache->counter);
+		//$response->setValue('counter', $cache->counter);
 		return $response->success();
 	}
 }

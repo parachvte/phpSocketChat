@@ -8,10 +8,11 @@ class MessageCache {
 	/**
 	 * @param $nick
 	 * @param $content
+	 * @param $toNick : If $toNick is empty, message will be broadcast
 	 * @return int
 	 */
-	public function push($nick, $content) {
-		$item = ['nick' => $nick, 'content' => $content];
+	public function push($nick, $content, $toNick) {
+		$item = ['nick' => $nick, 'content' => $content, 'toNick' => $toNick];
 		$this->cache[++$this->counter] = $item;
 		return $this->counter;
 	}

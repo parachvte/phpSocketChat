@@ -28,7 +28,8 @@ try {
 			$data += [
 				'channel' => $_POST['channel'],
 				'nick' => $_POST['nick'],
-				'content' => $_POST['content']
+				'content' => $_POST['content'],
+				'toNick' => $_POST['toNick']
 			];
 			break;
 		case 'polling':
