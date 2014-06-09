@@ -132,6 +132,7 @@ $(document).ready(function(){
             channel = $.cookie('channel'),
             last_mid = $.cookie('polling'),
             nick = $.cookie('nick');
+        if (!nick) nick = '';
         $.ajax({
             type: 'POST',
             url: client,
