@@ -4,7 +4,7 @@
 * Author: Ryannnnnnn
 * Email: ryannx6@gmail.com)
 
-### 0. Dependance
+### 0. Dependancies
 
 * Apache
 * PHP (compiled with `--enable-sockets` option)
@@ -25,7 +25,7 @@ Versions I used:
 
 ### 1. Structures
 
-Directory `lib/` contains some useful common class.
+Directory `lib/` contains some useful common classes.
 
 * To implement the socket server, we have classes `SocketServer`, `SocketClient`, `SocketPacket`.
 
